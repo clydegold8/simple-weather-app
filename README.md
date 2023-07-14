@@ -1,7 +1,7 @@
 # SimpleWeatherApp
  - A simple weather app that displays user info and current and hourly weather
- - Users are generated randomly  [Angular CLI](https://github.com/angular/angular-cli)
- - This project was generated with [Random Users Generator](https://randomuser.me).
+ - This project was generated with [Angular CLI](https://github.com/angular/angular-cli)
+ - Users are generated randomly [Random Users Generator](https://randomuser.me).
  - Weather info is from [Weather API datahost]( https://open-meteo.com/en/docs ).
 
 ## Development server
