@@ -50,6 +50,13 @@
     </mat-card-header>
     <mat-card-content>
       <mat-divider></mat-divider>
+      <h1>User Map Location</h1>
+      <div *ngIf="options !== undefined" class="map-container" style="height: 300px;"
+          leaflet
+          [leafletOptions]="options"
+          [leafletLayers]="layers">
+      </div>
+      <mat-divider></mat-divider>
       <h1>Hourly Weather</h1>
       <mat-list class="hourly-weather">
         <div  *ngFor="let weatherTemp of data.weatherInfo.hourly.temperature2m;let i=index">

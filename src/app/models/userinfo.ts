@@ -13,6 +13,7 @@ export interface OtherInfo {
   minTemp: number;
   weatherStateList?: any[]
   isDay: boolean;
+  mapConfig: any;
 }
 
 export interface WeatherState {

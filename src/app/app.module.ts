@@ -18,6 +18,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { MatListModule } from '@angular/material/list';
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatProgressBarModule,
-    MatListModule
+    MatListModule,
+    LeafletModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

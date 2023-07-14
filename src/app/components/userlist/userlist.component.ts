@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CompleteUserDetails } from 'src/app/models/userinfo';
+import * as L from "leaflet";
 
 @Component({
   selector: 'app-userlist',
@@ -25,6 +26,23 @@ export class UserlistComponent implements OnInit {
       if(data.otherInfo){
         this.weatherTooltip = data.otherInfo.weatherStateDescription;
         this.weatherStateList = data.otherInfo.weatherStateList;
+
+        data.otherInfo.mapConfig = {
+              options: {
+                layers: [L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: '...' })],
+                zoom: 5,
+                center: L.latLng(+data.userInfo.location.coordinates.latitude, +data.userInfo.location.coordinates.longitude)
+              },
+              layers: [
+                  L.marker([ +data.userInfo.location.coordinates.latitude, +data.userInfo.location.coordinates.longitude ], {
+                      icon: L.icon({
+                        iconSize: [38, 38],
+                        iconAnchor: [13, 13],
+                        iconUrl: data.userInfo.picture.medium
+                      })
+                  })
+              ]
+        }
       }
     });
   }

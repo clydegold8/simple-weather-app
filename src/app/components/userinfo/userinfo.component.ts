@@ -4,6 +4,8 @@ import { CompleteUserDetails, UserInfo, WeatherInfo, WeatherState } from 'src/ap
 import { UserService } from 'src/app/services/user/user.service';
 import { WeatherService } from 'src/app/services/weather/weather.service';
 import { formatDate } from '@angular/common';
+import * as L from "leaflet";
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @UntilDestroy()
 @Component({
@@ -13,7 +15,7 @@ import { formatDate } from '@angular/common';
 })
 export class UserinfoComponent implements OnInit {
 
-  constructor( private userSvc: UserService, private weatherSvc: WeatherService ) {}
+  constructor( private _userSvc: UserService, private _weatherSvc: WeatherService, private _snackBar: MatSnackBar ) {}
 
   public userDetails: CompleteUserDetails[] = [];
   public isLoading = true;
@@ -25,15 +27,17 @@ export class UserinfoComponent implements OnInit {
   public minTemp = 0;
   public isLoadingSave = false;
   public isUserSaved = false;
+  public options: any;
+  public layers: any;
 
   ngOnInit(): void {
-      this.userSvc.getUser().pipe(untilDestroyed(this))
+      this._userSvc.getUser().pipe(untilDestroyed(this))
       .subscribe((res:any) => {
         res.results.map(async (userInfo: UserInfo) => {
           const currentDate = formatDate(Date.now(),'yyyy-MM-dd','en-US');
-          await this.weatherSvc.getWeather(+userInfo.location.coordinates.latitude, +userInfo.location.coordinates.longitude,currentDate).pipe(untilDestroyed(this))
+          await this._weatherSvc.getWeather(+userInfo.location.coordinates.latitude, +userInfo.location.coordinates.longitude,currentDate).pipe(untilDestroyed(this))
           .subscribe(async (weatherData: WeatherInfo) => {
-            await this.weatherSvc.getWeatherDescriptionsData().pipe(untilDestroyed(this)).subscribe(async (weatherDescriptions) => {
+            await this._weatherSvc.getWeatherDescriptionsData().pipe(untilDestroyed(this)).subscribe(async (weatherDescriptions) => {
               this.userDetails.push({userInfo:userInfo,weatherInfo:weatherData});
               this.isDay = Boolean(weatherData.currentWeather.isDay);
               this.isLoading= false;
@@ -47,17 +51,38 @@ export class UserinfoComponent implements OnInit {
               weatherData.daily.temperature2mMin.map((minTemp) => {
                 this.minTemp = minTemp;
               });
-              await this.userSvc.getCountryFlag().pipe(untilDestroyed(this)).subscribe((countryData) => {
+              await this._userSvc.getCountryFlag().pipe(untilDestroyed(this)).subscribe((countryData) => {
                 countryData.map((flagData: any) => {
                   if(flagData.name === userInfo.location.country){
                     this.countryFlag = flagData.image;
                   }
                 });
+                this.getMapOptions();
               });
             });
           });
         });
       });
+  }
+
+  public getMapOptions() {
+    this.userDetails.map((data) => {
+      this.options = {
+        layers: [L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: '...' })],
+        zoom: 5,
+        center: L.latLng(+data.userInfo.location.coordinates.latitude, +data.userInfo.location.coordinates.longitude)
+      }
+
+      this.layers = [
+          L.marker([ +data.userInfo.location.coordinates.latitude, +data.userInfo.location.coordinates.longitude ], {
+              icon: L.icon({
+                iconSize: [38, 38],
+                iconAnchor: [13, 13],
+                iconUrl: data.userInfo.picture.medium
+              })
+          })
+      ]
+    });
   }
 
   public saveUserDetails(userData: CompleteUserDetails[]){
@@ -71,7 +96,8 @@ export class UserinfoComponent implements OnInit {
           maxTemp: this.maxTemp,
           minTemp: this.minTemp,
           weatherStateList: this.weatherDetail,
-          isDay: this.isDay
+          isDay: this.isDay,
+          mapConfig: {}
         }
       });
       const userDetailStr = localStorage.getItem('userDetailArr');
@@ -87,6 +113,7 @@ export class UserinfoComponent implements OnInit {
       console.info('Saved Userinfo');
       this.isLoadingSave = false;
       this.isUserSaved = true;
+      this._snackBar.open('User Saved', 'Close');
     }, 600);
   }
 }

@@ -8,12 +8,12 @@ import { catchError, map } from 'rxjs/operators';
 })
 export class UserService {
 
-  constructor(private http: HttpClient ) { }
+  constructor(private _http: HttpClient ) { }
 
   private userURL = 'https://randomuser.me/api/?exc=login,registered,phone,cell,id,dob,nat';
 
   public getUser():  Observable<any> {
-    return this.http.get(this.userURL).pipe(
+    return this._http.get(this.userURL).pipe(
       map((res) => {
         return res;
       }),
@@ -21,7 +21,7 @@ export class UserService {
   }
 
   public getCountryFlag(): Observable<any>{
-    return this.http.get('./assets/country-flag-list.json').pipe(map((res: any) => {
+    return this._http.get('./assets/country-flag-list.json').pipe(map((res: any) => {
       return res;
     }),
     catchError(err => { throw 'error loading country flag' + err; }));
