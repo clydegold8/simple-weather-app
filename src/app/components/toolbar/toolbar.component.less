@@ -1,0 +1,30 @@
+.activeButton{
+  background-color: rgba(63,81,181,.12);
+  opacity: 1;
+  transition: opacity .2s cubic-bezier(.35,0,.25,1),
+  background-color .2s cubic-bezier(.35,0,.25,1);
+}
+
+.nav-btn:hover{
+  background-color: rgba(63,81,181,.12);
+  border-radius: 5px;
+  opacity: 1;
+  transition: opacity .2s cubic-bezier(.35,0,.25,1),
+  background-color .2s cubic-bezier(.35,0,.25,1);
+}
+
+button.icon-btn,.spacer-menu-mobile,.spacer-menu-mobile-half{
+  display: none;
+}
+
+@media screen and (max-width: 670px) {
+  .nav-btn{
+    display: none;
+  }
+  mat-toolbar{
+    justify-content: center;
+  }
+  button.icon-btn,.spacer-menu-mobile,.spacer-menu-mobile-half{
+    display: block;
+  }
+}

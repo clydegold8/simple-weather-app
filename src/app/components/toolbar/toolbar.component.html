@@ -1,0 +1,23 @@
+<mat-toolbar>
+  <span class="spacer-menu-mobile"></span>
+  <span class="spacer-menu-mobile-half"></span>
+  <span>User Weather App</span>
+  <span class="spacer"></span>
+  <a mat-button class="nav-btn" routerLink="/user-info" routerLinkActive="activeButton" >User Info</a>
+  <span class="spacer"></span>
+  <a mat-button class="nav-btn" routerLink="/user-list" routerLinkActive="activeButton" >User List</a>
+  <span class="spacer-menu"></span>
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="icon-btn">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/user-info" routerLinkActive="activeButton">
+      <mat-icon>face</mat-icon>
+      <span>User Info</span>
+    </button>
+    <button mat-menu-item routerLink="/user-list" routerLinkActive="activeButton">
+      <mat-icon>view_list</mat-icon>
+      <span>User List</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
