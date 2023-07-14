@@ -27,7 +27,5 @@ export class UserlistComponent implements OnInit {
         this.weatherStateList = data.otherInfo.weatherStateList;
       }
     });
-
-    console.log(this.userListDetails, this.isEmptyList)
   }
 }
