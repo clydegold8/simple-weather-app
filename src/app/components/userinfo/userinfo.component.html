@@ -3,7 +3,7 @@
   <h1>Loading User Data...</h1>
 </div>
 <div class="user-card-container" *ngFor="let data of userDetails">
-  <mat-card  *ngIf="!isLoading" class="example-card">
+  <mat-card  *ngIf="!isLoading" class="user-card">
     <mat-card-header>
       <div mat-card-avatar class="user-avatar">
         <img src="{{data.userInfo.picture.medium}}" alt="user-avatar">

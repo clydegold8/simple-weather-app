@@ -113,7 +113,9 @@ export class UserinfoComponent implements OnInit {
       console.info('Saved Userinfo');
       this.isLoadingSave = false;
       this.isUserSaved = true;
-      this._snackBar.open('User Saved', 'Close');
-    }, 600);
+      this._snackBar.open('User Saved', 'Close', {
+        duration: 1000
+      });
+    }, 1000);
   }
 }
