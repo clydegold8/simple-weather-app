@@ -2,83 +2,97 @@
   <mat-icon> warning </mat-icon> <h1>No Users Saved</h1>
 </div>
 
-<div *ngFor="let data of userListDetails" class="user-card-container">
-  <mat-card class="user-card">
-    <mat-card-header>
-      <div mat-card-avatar class="user-avatar">
-        <img src="{{data.userInfo.picture.medium}}" alt="user-avatar">
-      </div>
-      <mat-card-title>
-        {{data.userInfo.name.first}} {{data.userInfo.name.last}}
-        <mat-icon [class]="data.userInfo.gender === 'male'? 'male-color-icon': 'female-color-icon'" >
-          {{data.userInfo.gender}}
-        </mat-icon>
-        <img class="country-flag" src="{{data.otherInfo?.countryFlag}}" alt="country-flag">
-      </mat-card-title>
-      <mat-card-subtitle>{{data.userInfo.location.city}}, {{data.userInfo.location.state}}</mat-card-subtitle>
-      <mat-card-subtitle class="email-container">
-        <mat-icon>mail</mat-icon>
-        <span>{{data.userInfo.email}}</span>
-      </mat-card-subtitle>
-      <span class="spacer-menu-mobile"></span>
-      <div class="weather-summary-container">
-        <div class="weather-current-temp-container">
-          <div class="weather-current-temp">
-            {{data.weatherInfo.currentWeather.temperature}}
-            <span class="temp-unit">{{data.weatherInfo.hourlyUnits.temperature2m}}</span>
-            <img class="weather-state-mobile" [matTooltip]="weatherTooltip" src="{{data.otherInfo?.weatherStateImage}}" alt="weather-state-image">
-            <div class="current-temp-minmax-container">
-              <span class="max-temp">
-                {{data.otherInfo?.maxTemp}}
-                <span class="minmax-temp-unit">{{data.weatherInfo.dailyUnits.temperature2mMax}}</span>
-                <mat-icon> arrow_drop_up </mat-icon>
-              </span>
-              <span class="min-temp">
-                {{data.otherInfo?.minTemp}}
-                <span class="minmax-temp-unit">{{data.weatherInfo.dailyUnits.temperature2mMin}}</span>
-                <mat-icon> arrow_drop_down </mat-icon>
-              </span>
+<div class="content">
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div fxFlex="50%" fxFlex.xs="100%"
+    fxFlex.sm="100%" *ngFor="let data of userListDetails">
+      <mat-card class="user-card shadow-drop-2-center">
+        <mat-card-header>
+          <div mat-card-avatar class="user-avatar">
+            <img src="{{data.userInfo.picture.medium}}" alt="user-avatar">
+          </div>
+          <mat-card-title>
+            {{data.userInfo.name.first}} {{data.userInfo.name.last}}
+            <mat-icon [class]="data.userInfo.gender === 'male'? 'male-color-icon': 'female-color-icon'" >
+              {{data.userInfo.gender}}
+            </mat-icon>
+            <img class="country-flag" src="{{data.otherInfo?.countryFlag}}" alt="country-flag">
+          </mat-card-title>
+          <mat-card-subtitle>{{data.userInfo.location.city}}, {{data.userInfo.location.state}}</mat-card-subtitle>
+          <mat-card-subtitle class="email-container">
+            <mat-icon>mail</mat-icon>
+            <span>{{data.userInfo.email}}</span>
+          </mat-card-subtitle>
+          <span class="spacer-menu-mobile"></span>
+          <div class="weather-summary-container">
+            <div class="weather-current-temp-container">
+              <div class="weather-current-temp">
+                {{data.weatherInfo.currentWeather.temperature}}
+                <span class="temp-unit">{{data.weatherInfo.hourlyUnits.temperature2m}}</span>
+                <img class="weather-state-mobile" [matTooltip]="weatherTooltip" src="{{data.otherInfo?.weatherStateImage}}" alt="weather-state-image">
+                <div class="current-temp-minmax-container">
+                  <span class="max-temp">
+                    {{data.otherInfo?.maxTemp}}
+                    <span class="minmax-temp-unit">{{data.weatherInfo.dailyUnits.temperature2mMax}}</span>
+                    <mat-icon> arrow_drop_up </mat-icon>
+                  </span>
+                  <span class="min-temp">
+                    {{data.otherInfo?.minTemp}}
+                    <span class="minmax-temp-unit">{{data.weatherInfo.dailyUnits.temperature2mMin}}</span>
+                    <mat-icon> arrow_drop_down </mat-icon>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="weather-state-container">
+              <img src="{{data.otherInfo?.weatherStateImage}}" alt="weather-state-image">
+              <span class="weather-state">{{data.otherInfo?.weatherStateDescription}}</span>
             </div>
           </div>
-        </div>
-
-        <div class="weather-state-container">
-          <img src="{{data.otherInfo?.weatherStateImage}}" alt="weather-state-image">
-          <span class="weather-state">{{data.otherInfo?.weatherStateDescription}}</span>
-        </div>
-      </div>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-divider></mat-divider>
-      <h1>User Map Location</h1>
-      <div class="map-container" style="height: 300px;"
-          leaflet
-          [leafletOptions]="data.otherInfo?.mapConfig.options"
-          [leafletLayers]="data.otherInfo?.mapConfig.layers">
-      </div>
-      <mat-divider></mat-divider>
-      <h1>Hourly Weather</h1>
-      <mat-list class="hourly-weather">
-        <div  *ngFor="let weatherTemp of data.weatherInfo.hourly.temperature2m;let i=index">
-          <mat-list-item>
-            <div class="data-container">
-              <div class="weather-time">
-                <p>{{data.weatherInfo.hourly.time[i] | date: 'EEEE'}}</p>
-                <p>{{data.weatherInfo.hourly.time[i] | date: 'h:mm a'}}</p>
-              </div>
-              <div class="weather-code">
-                {{weatherStateList[data.weatherInfo.hourly.weathercode[i]][(data.weatherInfo.hourly.time[i] | date: 'a') === 'AM'? 'day' : 'night'].description}}
-              </div>
-              <div class="weather-image">
-                <img src="{{weatherStateList[data.weatherInfo.hourly.weathercode[i]][(data.weatherInfo.hourly.time[i] | date: 'a') === 'AM'? 'day' : 'night'].image}}" alt="weather-image-alt">
-              </div>
-              <div class="weather-temp">{{weatherTemp}} {{data.weatherInfo.hourlyUnits.temperature2m}}</div>
-            </div>
-          </mat-list-item>
+        </mat-card-header>
+        <mat-card-content>
           <mat-divider></mat-divider>
-        </div>
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
+          <h1>User Map Location</h1>
+          <div class="map-container" style="height: 300px;"
+              leaflet
+              [leafletOptions]="data.otherInfo?.mapConfig.options"
+              [leafletLayers]="data.otherInfo?.mapConfig.layers">
+          </div>
+          <mat-divider></mat-divider>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h1>Hourly Weather</h1>
+              </mat-panel-title>
+              <mat-panel-description>
+                Open to see the hourly weather
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-list class="hourly-weather">
+              <div  *ngFor="let weatherTemp of data.weatherInfo.hourly.temperature2m;let i=index">
+                <mat-list-item>
+                  <div class="data-container">
+                    <div class="weather-time">
+                      <p>{{data.weatherInfo.hourly.time[i] | date: 'EEEE'}}</p>
+                      <p>{{data.weatherInfo.hourly.time[i] | date: 'h:mm a'}}</p>
+                    </div>
+                    <div class="weather-code">
+                      {{weatherStateList[data.weatherInfo.hourly.weathercode[i]][(data.weatherInfo.hourly.time[i] | date: 'a') === 'AM'? 'day' : 'night'].description}}
+                    </div>
+                    <div class="weather-image">
+                      <img src="{{weatherStateList[data.weatherInfo.hourly.weathercode[i]][(data.weatherInfo.hourly.time[i] | date: 'a') === 'AM'? 'day' : 'night'].image}}" alt="weather-image-alt">
+                    </div>
+                    <div class="weather-temp">{{weatherTemp}} {{data.weatherInfo.hourlyUnits.temperature2m}}</div>
+                  </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+              </div>
+            </mat-list>
+          </mat-expansion-panel>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 </div>
 

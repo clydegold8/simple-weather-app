@@ -3,7 +3,7 @@
   <h1>Loading User Data...</h1>
 </div>
 <div class="user-card-container" *ngFor="let data of userDetails">
-  <mat-card  *ngIf="!isLoading" class="user-card">
+  <mat-card  *ngIf="!isLoading" class="user-card shadow-drop-2-center">
     <mat-card-header>
       <div mat-card-avatar class="user-avatar">
         <img src="{{data.userInfo.picture.medium}}" alt="user-avatar">
@@ -57,23 +57,33 @@
           [leafletLayers]="layers">
       </div>
       <mat-divider></mat-divider>
-      <h1>Hourly Weather</h1>
-      <mat-list class="hourly-weather">
-        <div  *ngFor="let weatherTemp of data.weatherInfo.hourly.temperature2m;let i=index">
-          <mat-list-item>
-            <div class="data-container">
-              <div class="weather-time">
-                <p>{{data.weatherInfo.hourly.time[i] | date: 'EEEE'}}</p>
-                <p>{{data.weatherInfo.hourly.time[i] | date: 'h:mm a'}}</p>
+      <mat-divider></mat-divider>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h1>Hourly Weather</h1>
+          </mat-panel-title>
+          <mat-panel-description>
+            Open to see the hourly weather
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-list class="hourly-weather">
+          <div  *ngFor="let weatherTemp of data.weatherInfo.hourly.temperature2m;let i=index">
+            <mat-list-item>
+              <div class="data-container">
+                <div class="weather-time">
+                  <p>{{data.weatherInfo.hourly.time[i] | date: 'EEEE'}}</p>
+                  <p>{{data.weatherInfo.hourly.time[i] | date: 'h:mm a'}}</p>
+                </div>
+                <div class="weather-code">{{weatherDetail[data.weatherInfo.hourly.weathercode[i]][(data.weatherInfo.hourly.time[i] | date: 'a') === 'AM'? 'day' : 'night'].description}}</div>
+                <div class="weather-image"><img src="{{weatherDetail[data.weatherInfo.hourly.weathercode[i]][(data.weatherInfo.hourly.time[i] | date: 'a') === 'AM'? 'day' : 'night'].image}}" alt="weather-image-alt"></div>
+                <div class="weather-temp">{{weatherTemp}} {{data.weatherInfo.hourlyUnits.temperature2m}}</div>
               </div>
-              <div class="weather-code">{{weatherDetail[data.weatherInfo.hourly.weathercode[i]][(data.weatherInfo.hourly.time[i] | date: 'a') === 'AM'? 'day' : 'night'].description}}</div>
-              <div class="weather-image"><img src="{{weatherDetail[data.weatherInfo.hourly.weathercode[i]][(data.weatherInfo.hourly.time[i] | date: 'a') === 'AM'? 'day' : 'night'].image}}" alt="weather-image-alt"></div>
-              <div class="weather-temp">{{weatherTemp}} {{data.weatherInfo.hourlyUnits.temperature2m}}</div>
-            </div>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-        </div>
-      </mat-list>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </div>
+        </mat-list>
+      </mat-expansion-panel>
     </mat-card-content>
     <mat-card-actions align="end">
       <button *ngIf="!isUserSaved" mat-raised-button (click)="saveUserDetails(userDetails)" color="primary">Save User</button>

@@ -19,7 +19,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
@@ -43,8 +45,10 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     MatTooltipModule,
     MatProgressBarModule,
     MatListModule,
+    MatExpansionModule,
     LeafletModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
